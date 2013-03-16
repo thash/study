@@ -1,0 +1,2 @@
+use Text::MeCab;
+
