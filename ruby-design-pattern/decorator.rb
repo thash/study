@@ -79,3 +79,36 @@ p writer
 writer.write_line("Hello out there")
 p writer.check_sum
 
+
+# Dynamic Decorator -- Strength of Ruby
+w = SimpleWriter.new('out')
+
+# open Singleton class
+class << w
+  alias old_write_line write_line
+  def write_line(line)
+    old_write_line("#{Time.now}: #{line}")
+  end
+end
+
+# Decorator by module
+module TimeStampingWriter2
+  def write_line(line)
+    super("#{Time.new}: #{line}")
+  end
+end
+
+module NumberingWriter2
+  attr_reader :line_number
+  def write_line(line)
+    @line_number ||= 1
+    super("#{@line_number}: #{line}")
+    @line_number += 1
+  end
+end
+
+ww = SimpleWriter.new('filee')
+ww.extend(NumberingWriter2)
+ww.extend(TimeStampingWriter2)
+ww.write_line('helllllllllo')
+
