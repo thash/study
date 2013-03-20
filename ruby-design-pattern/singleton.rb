@@ -90,3 +90,78 @@ class SimpleLoggerX
   include Singleton
 end
 
+### 間違いの例
+# 1. global variables ($hoge) はsingletonではない
+#    変数なので $hoge = 'Bad'とすれば書き換えられてしまう.
+# 2. 変更を避けるためにグローバル定数使ってもだめ.
+#    遅延が使えない(1も), singleを保証できない(2個目を作れてしまう)
+
+# ClassそのものをSingletonとして使うことも出来る. instanceが複数できないことは保証できる.
+# => "instance化されないclass"ならModuleとして定義してしまうのもあり
+
+module ModuleBasedLogger
+  ERROR = 1
+  WARNING = 2
+  INFO = 3
+  @@log = File.open("logm.txt", "w")
+  @@level = WARNING
+
+  def self.error(msg)
+    @@log.puts(msg)
+    @@log.flush
+  end
+  # (ry
+end
+
+ModuleBasedLogger.error('heyhey')
+
+# Rubyの柔軟性とSingleton
+# 結局苦労してsingletonにしてもcloneすれば複製できてしまう
+# 言語として完全に禁止することはできない.
+
+
+### Singleton pattern使用上の注意
+#
+# * Singleton != global variables
+# * そもそも想定ケースでSingletonが必要ない
+# * 他のClassがSingletonのsingleton性に依存してしまう
+#   以下実例.
+
+class DatabaseConnectionManager
+  include Singleton
+
+  def get_connection
+    # return connection
+  end
+end
+
+class PreferenceManager
+  def initialize
+    @reader = PrefReader.new
+    @writer = PrefWriter.new
+    @preferences = { :display_splash => false, :background_color => :blue }
+  end
+
+  def save_preference
+    preference = {}
+    @writer.write(@preferences)
+  end
+
+  def get_preferences
+    @preferences = @reader.read
+  end
+
+  class PrefWriter
+    def write(preferences)
+      connection = DatabaseConnectionManager.instance.get_connection
+      # write preferences info
+    end
+  end
+
+  class PrefReader
+    def read
+      connection = DatabaseConnectionManager.instance.get_connection
+      # read and return preferences information
+    end
+  end
+end
