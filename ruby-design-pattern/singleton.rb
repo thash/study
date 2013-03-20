@@ -81,3 +81,12 @@ p logger1.object_id; p logger2.object_id
 # => 70124623647520
 # => 70124623647520
 
+# use Ruby standard lib in the real world
+# 上記の実装との違いが1点.
+# 上記は必要になる前にSingleton instanceを作るeager instantiationで,
+# Singleton moduleの実装は実際にinstance methodが呼ばれた時まで遅延するlazy instantiation.
+require 'singleton'
+class SimpleLoggerX
+  include Singleton
+end
+
