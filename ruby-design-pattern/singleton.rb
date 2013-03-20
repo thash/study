@@ -32,6 +32,11 @@ class SimpleLogger
   WARNING = 2
   INFO = 3
 
+  @@instance = SimpleLogger.new
+  def self.instance
+    return @@instance
+  end
+
   def initialize
     @log = File.open("log.txt", "w")
     @level = WARNING
@@ -51,9 +56,22 @@ class SimpleLogger
     @log.puts(msg) if @level >= INFO
     @log.flush
   end
+
 end
 
 logger = SimpleLogger.new
 logger.level = SimpleLogger::INFO
 
+loggerX = SimpleLogger.new
+p logger.object_id; p loggerX.object_id
+# return different object id
+# => 70124623647480
+# => 70124623647380
+
+logger1 = SimpleLogger.instance
+logger2 = SimpleLogger.instance
+p logger1.object_id; p logger2.object_id
+# exactly the same object
+# => 70124623647520
+# => 70124623647520
 
