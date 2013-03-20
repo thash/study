@@ -135,14 +135,14 @@ class DatabaseConnectionManager
   end
 end
 
-class PreferenceManager
+class PreferenceManagerXXX
   def initialize
     @reader = PrefReader.new
     @writer = PrefWriter.new
     @preferences = { :display_splash => false, :background_color => :blue }
   end
 
-  def save_preference
+  def save_preferences
     preference = {}
     @writer.write(@preferences)
   end
@@ -165,3 +165,22 @@ class PreferenceManager
     end
   end
 end
+
+# better
+class PreferenceManager
+  def initialize
+    @reader = PrefReader.new
+    @writer = PrefWriter.new
+    @preferences = { :display_splash => false, :background_color => :blue }
+  end
+
+  def save_preferences
+    preferences = {}
+    @writer.write(DatabaseConnectionManager.instance, @preferences)
+  end
+
+  def get_preferences
+    @preferences = @reader.read(DatabaseConnectionManager.instance)
+  end
+end
+
