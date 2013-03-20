@@ -57,16 +57,22 @@ class SimpleLogger
     @log.flush
   end
 
+  private_class_method :new
 end
 
-logger = SimpleLogger.new
-logger.level = SimpleLogger::INFO
+begin
+  logger = SimpleLogger.new
+  logger.level = SimpleLogger::INFO
 
-loggerX = SimpleLogger.new
-p logger.object_id; p loggerX.object_id
-# return different object id
-# => 70124623647480
-# => 70124623647380
+  loggerX = SimpleLogger.new
+  p logger.object_id; p loggerX.object_id
+  # return different object id
+  # => 70124623647480
+  # => 70124623647380
+rescue NoMethodError
+  p $!
+  # => #<NoMethodError: private method `new' called for SimpleLogger:Class>
+end
 
 logger1 = SimpleLogger.instance
 logger2 = SimpleLogger.instance
