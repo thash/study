@@ -86,3 +86,73 @@ builder.add_hard_disk(100000)
 
 computer = builder.computer
 
+# BuilderとFactoryの違い:
+#   Factoryは正しいクラスを見つけることを目的とし,
+#   Builderはオブジェクトを構成することを目的としている.
+
+
+### Polymorphicなbuilder
+#
+# DesktopとLaptopをbuildすると考える
+
+# 共通部分のみをComputerBuilder2に定義
+class ComputerBuilder2
+  attr_reader :computer
+
+  def turbo(has_turbo_cpu=true)
+    @computer.motherboard.cpu = TurboCPU.new
+  end
+
+  def memory_size=(size_in_mb)
+    @computer.motherboard.memory_size = size_in_mb
+  end
+end
+
+
+class DesktopBuilder < ComputerBuilder2
+  def initialize
+    @computer = DesktopComputer.new
+  end
+
+  def display=(display)
+    @display=display
+  end
+
+  def add_cd(writer=false)
+    @computer.drives << Drive.new(:cd, 760, writer)
+  end
+  def add_dvd(writer=false)
+    @computer.drives << Drive.new(:dvd, 4000, writer)
+  end
+  def add_hard_disk(size_in_mb)
+    @computer.drives << Drive.new(:hard_disk, size_in_mb, true)
+  end
+end
+
+
+class LaptopBuilder < ComputerBuilder2
+  def initialize
+    @computer = LaptopComputer.new
+  end
+
+  def display=(display)
+    raise "Laptop display must be lcd" unless display == :lcd
+  end
+
+  def add_cd(writer=false)
+    @computer.drives << LaptopDrive.new(:cd, 760, writer)
+  end
+  def add_dvd(writer=false)
+    @computer.drives << LaptopDrive.new(:dvd, 4000, writer)
+  end
+  def add_hard_disk(size_in_mb)
+    @computer.drives << LaptopDrive.new(:hard_disk, size_in_mb, true)
+  end
+end
+
+# * また, builderはオブジェクトの妥当性をチェックする場所としても使える
+# * 複数の異なるcomputerを作るためにはbuilderの設定をリセットするメソッドも用意しておく
+#     def reset
+#       @computer = LaptopComputer.newa # 作り直し
+#       ...
+
