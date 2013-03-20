@@ -55,6 +55,8 @@ p computer
 
 # これを一発のnewで作るようなBuilderを定義する
 class ComputerBuilder
+  attr_reader :computer
+
   def initialize
     @computer = Computer.new
   end
@@ -95,6 +97,11 @@ computer = builder.computer
 #
 # DesktopとLaptopをbuildすると考える
 
+class DesktopComputer < Computer
+end
+class LaptopComputer < Computer
+end
+
 # 共通部分のみをComputerBuilder2に定義
 class ComputerBuilder2
   attr_reader :computer
@@ -105,6 +112,18 @@ class ComputerBuilder2
 
   def memory_size=(size_in_mb)
     @computer.motherboard.memory_size = size_in_mb
+  end
+
+  def method_missing(name, *args)
+    words = name.to_s.split("_")
+    return super(name, *args) unless words.shift == 'add'
+    words.each do |word|
+      next if word == 'and'
+      add_cd if word == 'cd'
+      add_dvd if word == 'dvd'
+      add_hard_disk(100000) if word == 'harddisk'
+      turbo if word == 'turbo'
+    end
   end
 end
 
@@ -155,4 +174,12 @@ end
 #     def reset
 #       @computer = LaptopComputer.newa # 作り直し
 #       ...
+
+builder = DesktopBuilder.new
+p "--------"
+p builder
+p "--------"
+builder.add_turbo_and_dvd_and_harddisk
+p builder
+p builder.computer
 
