@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'singleton'
 class Backup
-  include Singleton
+  # Backupがsingletonじゃないようにする
 
   attr_accessor :backup_directory, :interval
   attr_reader :data_source
@@ -10,17 +10,29 @@ class Backup
     @data_source = []
     @backup_directory = '/backup'
     @interval = 60
+    yield(self) if block_given?
+    PacktRat.instance.register_backkup(self)
   end
 
-  def backup_files
-    this_backup_dir = Time.new.ctime.tr(' :', '_')
-    this_backup_path = File.join(backup_directory, this_backup_dir)
-    @data_source.each {|source| source.backup(this_backup_path)}
+  # toplevelから使っていたmethodをBackupに持たせる
+  def backup(dir, finder_expression=All.new)
+    @data_source << DataSource.new(dir, finder_expression)
   end
 
+  def to(backup_directory)
+    @backup_directory = backup_directory
+  end
+
+  def interval(minutes)
+    @interval = minutes
+  end
+
+  # backup_files methodをrunに統合
   def run
     while true
-      backup_files
+      this_backup_dir = Time.new.ctime.tr(' :', '_')
+      this_backup_path = File.join(backup_directory, this_backup_dir)
+      @data_source.each {|source| source.backup(this_backup_path)}
       sleep(@interval*60)
     end
   end
@@ -49,20 +61,32 @@ class DataSource
   end
 end
 
-### Load DSL
-def backup(dir, finder_expression=All.new)
-  Backup.instance.data_source << DataSource.new(dir, finder_expression)
-end
+class PackRat
+  # 代わりにPackRatがsingleton
+  include Singleton
 
-def to(backup_directory)
-  Backup.instance.backup_directory = backup_directory
-end
+  def initialize
+    @backups = []
+  end
 
-def interval(minutes)
-  Backup.instance.interval = minutes
+  def register_backup(backup)
+    @backups << backup
+  end
+
+  def run
+    tureads = []
+    @backups.each do |backup|
+      threads << Thread.new {backup.run}
+    end
+    threads.each {|t| t.join}
+  end
+
 end
 
 # evaる
-eval(File.read('backup.pr'))
-Backup.instance.run
+# eval(File.read('backup.pr'))
+# Backup.instance.run
 
+### better PacketRat DSL
+eval(FIle.read('backup.pr'))
+PackRat.instance.run
