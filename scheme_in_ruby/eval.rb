@@ -181,10 +181,31 @@ def if?(exp)
   exp[0] == :if
 end
 
-def eval_letrec(exp, env) # まだ
+# recursive okなlet, letrec.
+def eval_letrec(exp, env)
+  parameters, args, body = letrec_to_parameters_args_body(exp)
+  tmp_env = Hash.new
+  parameters.each do |parameter|
+    tmp_env[parameter] = :dummy
+  end
+  ext_env = extend_env(tmp_env.keys(), tmp_env.values(), env)
+  args_val = eval_list(args, ext_env)
+  set_extend_env!(parameters, args_val, ext_env)
+  new_exp = [[:lambda, parameters, body]] + args
+  _eval(new_exp, ext_env)
+end
+
+def set_extend_env!(parameters, args_val, ext_env)
+  parameters.zip(args_val).each do |parameter, arg_val|
+    ext_env[0][parameter] = arg_val
+  end
+end
+
+def letrec_to_parameters_args_body(exp)
+  let_to_parameters_args_body(exp)
 end
 
 def letrec?(exp)
-  false
+  exp[0] == :letrec
 end
 
