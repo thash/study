@@ -31,11 +31,19 @@ $primitive_fun_env = {
   :+ => [:prim, lambda{|x, y| x + y}],
   :- => [:prim, lambda{|x, y| x - y}],
   :* => [:prim, lambda{|x, y| x * y}],
+  :> => [:prim, lambda{|x, y| x > y}],
+  :>= => [:prim, lambda{|x, y| x >= y}],
+  :< => [:prim, lambda{|x, y| x < y}],
+  :<= => [:prim, lambda{|x, y| x <= y}],
+  :== => [:prim, lambda{|x, y| x == y}],
 }
+
+$boolean_env =
+  {:true => true, :false => false}
 
 # 初期環境にprimitive_funを設定しておくことで,
 # 組み込み関数を変数と同じようにlookup_varで扱うことが出来る.
-$global_env = [$primitive_fun_env]
+$global_env = [$primitive_fun_env, $boolean_env]
 
 def car(list)
   list[0]
@@ -136,7 +144,9 @@ end
 
 def special_form?(exp)
   lambda?(exp) or
-    let?(exp)
+    let?(exp) or
+    letrec?(exp) or
+    if?(exp)
 end
 
 def eval_special_form(exp, env)
@@ -144,5 +154,37 @@ def eval_special_form(exp, env)
     eval_lambda(exp, env)
   elsif let?(exp)
     eval_let(exp, env)
+  elsif letrec?(exp)
+    eval_letrec(exp, env)
+  elsif if?(exp)
+    eval_if(exp, env)
   end
 end
+
+# ifを組み込み関数にしなかった理由:
+# 関数にしてしまうと...この言語では引数を全て評価してから関数を適用するため,
+# 条件が真でもelse節が実行されてしまう. 不本意な副作用etc.
+def eval_if(exp, env)
+  cond, true_clause, false_clause = if_to_cond_true_false(exp)
+  if _eval(cond, env)
+    _eval(true_clause, env)
+  else
+    _eval(false_clause, env)
+  end
+end
+
+def if_to_cond_true_false(exp)
+  [exp[1], exp[2], exp[3]]
+end
+
+def if?(exp)
+  exp[0] == :if
+end
+
+def eval_letrec(exp, env) # まだ
+end
+
+def letrec?(exp)
+  false
+end
+
