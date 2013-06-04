@@ -156,7 +156,9 @@ def special_form?(exp)
     let?(exp) or
     letrec?(exp) or
     if?(exp) or
-    define?(exp)
+    cond?(exp) or
+    define?(exp) or
+    quote?(exp)
 end
 
 def eval_special_form(exp, env)
@@ -168,8 +170,12 @@ def eval_special_form(exp, env)
     eval_letrec(exp, env)
   elsif if?(exp)
     eval_if(exp, env)
+  elsif cond?(exp)
+    eval_cond(exp, env)
   elsif define?(exp)
     eval_define(exp, env)
+  elsif quote?(exp)
+    eval_quote(exp, env)
   end
 end
 
@@ -316,3 +322,21 @@ def cond?(exp)
   exp[0] == :cond
 end
 
+### 4.4. パーサー
+def parse(exp)
+  program = exp.strip().
+    gsub(/[a-zA-Z\+\-\*><=][0-9a-zA-Z\+\-=!*]*/, ':\\0').
+    gsub(/\s+/, ', ').
+    gsub(/\(/, '[').
+    gsub(/\)/, ']')
+  eval(program)
+end
+
+### 4.5. quote
+def eval_quote(exp, env)
+  car(cdr(exp))
+end
+
+def quote?(exp)
+  exp[0] == :quote
+end
