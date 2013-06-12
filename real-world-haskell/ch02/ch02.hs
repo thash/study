@@ -8,3 +8,16 @@
 --         In an equation for `it': it = "foo" + 2
 
 -- ghci> :load file.hs ... ファイルをロード
+
+
+-- Haskellの強い型システムでは, 強制型変換は行われない.
+
+Prelude> 1
+1
+it :: Integer
+Prelude> 3 :: Int -- 明示的に型を指定.
+3
+it :: Int
+
+-- Haskellはデフォの型決定基準, 優先度を持ってる.
+
