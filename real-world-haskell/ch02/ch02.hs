@@ -21,3 +21,25 @@ it :: Int
 
 -- Haskellはデフォの型決定基準, 優先度を持ってる.
 
+-- X86+SSE2, のときはFloatのほうがいいとか?
+-- > http://book.realworldhaskell.org/read/types-and-functions.html
+-- SSE: ストリーミングSIMD拡張命令 (Streaming SIMD Extensions, SSE) は、インテルが開発したCPUのSIMD拡張命令セット
+
+-- Prelude> compare 6 5
+-- GT
+-- Prelude> :type it
+-- it :: Ordering
+-- 順序を表す Ordering 型.
+
+-- 関数適用はどんな演算子よりも優先度が高い
+-- Prelude> compare 2 3 == LT
+-- True
+
+-- Prelude> :type [(True, []), (False, [['a']])]
+-- [(True, []), (False, [['a']])] :: [(Bool, [[Char]])]
+
+-- 空リストを持つリストは空リストそのものとは別物.
+-- Prelude> [[]] /= []
+-- True
+
+
