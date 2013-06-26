@@ -1,0 +1,3 @@
+interface DebugPrintable {
+    void debugPrint();
+}
