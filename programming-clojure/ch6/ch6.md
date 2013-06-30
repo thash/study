@@ -39,3 +39,11 @@ datatypeはclass, structure, fields(primitive可), mapなどを作れる. defaul
 
 => ch6/midi.clj
 
+
+6.6 reify
+===========================
+
+reifyによって, 無名datatypeを作成できる. protocol, interfaceのメソッドを持ちつつ.
+
+=> ch6/generator.clj
+
