@@ -28,7 +28,7 @@ ifの代わりになるwhen-notというのがある(Rubyではunless)が, こ�
     (defn unless [expr form]
       (if expr nil form))
 
-これ, exprがtrueの時もformが実行されて意味ない. Clojureにおいて関数の引数は正規評価される(渡される前に評価される)ためである.
+これ, exprがtrueの時もformが実行されて意味ない. Clojureにおいて関数の引数は正格評価(Strict evaluation)される(渡される前に評価される)ためである.
 
 > The problem is that Clojure evaluates all the arguments before passing them to a function
 
