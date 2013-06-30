@@ -16,3 +16,26 @@ Clojure独自のProtocolという仕組みがある.
 
 datatypeはclass, structure, fields(primitive可), mapなどを作れる. defaultでimmutable.
 
+=> ch6/cryptovault.clj
+
+6.5 Records
+==========================
+
+> One difference between records and maps is that, unlike maps, records are not functions of keywords.
+
+    user=> (def mymap {:hoge 1 :fuga 2})
+    user=> (mymap :hoge)
+    1
+
+    user=> (defrecord Note [pitch octave duration])
+    user.Note
+    user=> (def myrecord (->Note :D# 4 1/2))
+    #'user/myrecord
+    user=> (myrecord :pitch)
+    ClassCastException user.Note cannot be cast to clojure.lang.IFn  user/eval169 (NO_SOURCE_FILE:1)
+
+    user=> (:pitch myrecord)
+    :D#
+
+=> ch6/midi.clj
+
