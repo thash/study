@@ -27,3 +27,21 @@
 (println (bench (str "a" "b")))
 ;;=> {:result ab, :elapsed 28000}
 
+;; # ... Auto-gensym の効果.
+user=> (macroexpand-1 '(bench (str "a" "b")))
+(clojure.core/let [start__141__auto__ (java.lang.System/nanoTime)
+                   result__142__auto__ (str "a" "b")]
+  {:result result__142__auto__,
+   :elapsed (clojure.core/- (java.lang.System/nanoTime) start__141__auto__)})
+
+(defmacro bench2 [expr]
+  `(let [start (System/nanoTime)
+         result ~expr]
+     {:result result :elapsed (- (System/nanoTime) start)}))
+
+user=> (macroexpand-1 '(bench2 (str "a" "b")))
+(clojure.core/let [user/start (java.lang.System/nanoTime)
+                   user/result (str "a" "b")]
+  {:result user/result,
+   :elapsed (clojure.core/- (java.lang.System/nanoTime) user/start)})
+
