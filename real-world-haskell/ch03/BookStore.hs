@@ -59,3 +59,17 @@ data BillingInfo = CreditCard CardNumber CardHolder Address
 --     Perhaps you meant `Invoice' (line 46)
 
 -- ふつうHaskellでは関数を表示できない(= 関数をShow)
+
+-------------------------------------------------------------------
+
+-- 代数データ型は2つ以上の値コンストラクタを持てます.
+-- タプルと似た部分もあるが, 名前をつけることで文脈を明確にする.
+-- dataキーワードを使って定義したデータ型すべて代数データ型
+
+-- Haskellにおける, パターンマッチ付き関数myNotの定義.
+
+myNot True = False
+myNot False = True
+
+-- パターンマッチを簡単かつわかりやすく書けるSyntaxを持つ言語はいいな.
+
