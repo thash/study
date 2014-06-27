@@ -1,0 +1,4 @@
+# Haskell Interface file
+*.hi
+# Haskell Object file, which contains machine code.
+*.o
