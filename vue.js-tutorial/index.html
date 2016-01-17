@@ -9,7 +9,11 @@
         new Vue({
           el: '#app',
           data: {
-            message: 'Hello Vue.js!'
+            todos: [
+              { text: 'Learn JavaScript' },
+              { text: 'Learn Vue.js' },
+              { text: 'Build Something Awesome' }
+            ]
           }
         });
     };
@@ -19,8 +23,11 @@
   <body onLoad="onLoad();">
 
     <div id="app">
-      <p>{{ message }}</p>
-      <input v-model="message">
+      <ul>
+        <li v-for="todo in todos">
+        {{ todo.text }}
+        </li>
+      </ul>
     </div>
 
   </body>
