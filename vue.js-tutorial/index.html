@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <!--NG <script src="../node_modules/vue/src/index.js"></script>-->
+    <!--NG <script src="./node_modules/vue/src/index.js"></script>-->
+    <!--OK <script src="https://cdn.jsdelivr.net/vue/latest/vue.js"></script>-->
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+      function onLoad() {
+        new Vue({
+          el: '#app',
+          data: {
+            message: 'Hello Vue.js!'
+          }
+        });
+    };
+    </script>
+  </head>
+
+  <body onLoad="onLoad();">
+
+    <div id="app">
+      {{ message }}
+    </div>
+
+  </body>
+</html>
