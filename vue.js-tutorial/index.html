@@ -9,11 +9,21 @@
         new Vue({
           el: '#app',
           data: {
-            message: 'Hello workspaces'
+            newTodo: '',
+            todos: [
+            { text: 'Add some todos' }
+            ]
           },
           methods: {
-            reverseMessage: function() {
-              this.message = this.message.split('').reverse().join('')
+            addTodo: function() {
+              var t = this.newTodo.trim()
+              if (t) {
+                this.todos.push({ text: t })
+                this.newTodo = ''
+              }
+            },
+            removeTodo: function (index) {
+              this.todos.splice(index, 1)
             }
           }
         });
@@ -24,9 +34,13 @@
   <body onLoad="onLoad();">
 
     <div id="app">
-      <p>{{ message }}</p>
-      <input v-model="message">
-      <button v-on:click="reverseMessage"> Reverse Message</button>
+      <input v-model="newTodo" v-on:keyup.enter="addTodo">
+      <ul>
+        <li v-for="todo in todos">
+        <span>{{ todo.text }}</span>
+        <button v-on:click="removeTodo($index)">X</button>
+        </li>
+      </ul>
     </div>
 
   </body>
