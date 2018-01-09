@@ -1,8 +1,9 @@
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
 <div id="app">
   {{ message }}
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script type="text/javascript">
   var app = new Vue({
     el: '#app',
@@ -10,4 +11,164 @@
       message: 'Hello Vue!'
     }
   })
+  // app._isVue => true
+  // app.message => "Hello Vue!"
+  // app.message = "hehe"
 </script>
+
+
+<div id="app-2">
+  <!-- v-bind attribute you are seeing is called a directive. Directives are prefixed with v- to indicate that they are special attributes provided by Vue -->
+  <!-- element’s title attribute -->
+  <span v-bind:title="message">
+    Hover your mouse over me for a few seconds
+    to see my dynamically bound title!
+  </span>
+</div>
+
+<script type="text/javascript">
+  var app2 = new Vue({
+    el: '#app-2',
+    data: {
+      message: 'You loaded this page on ' + new Date().toLocaleString()
+    }
+  })
+</script>
+
+
+<div id="app-3">
+  <span v-if="seen">Now you see me</span>
+</div>
+
+<script type="text/javascript">
+  var app3 = new Vue({
+    el: '#app-3',
+    data: { seen: false }
+  })
+</script>
+
+
+<div id="app-4">
+  <ol>
+    <li v-for="todo in todos">
+      {{ todo.text }}
+    </li>
+  </ol>
+</div>
+
+<script type="text/javascript">
+  var app4 = new Vue({
+  el: '#app-4',
+  data: { todos: [
+    { text: 'aaa'},
+    { text: 'bbb'},
+    { text: 'ccc'}
+  ]}
+  })
+// app4.todos.push({ text: 'hoge' })
+</script>
+
+
+<div id="app-5">
+  <p>{{ message }}</p>
+  <button v-on:click="reverseMessage">Reverse Message</button>
+</div>
+
+<script type="text/javascript">
+  var app5 = new Vue({
+    el: '#app-5',
+    data: {
+      message: 'my message dayo'
+      // , reverseMessage: 'shoud exist'
+    },
+    // new concept! method!
+    // static "reverseMessage" or dynamic object (method) reverseMessage
+    methods: {
+      reverseMessage: function () {
+        this.message = this.message.split('').reverse().join('')
+        // "this" is app5 itself. thus, it changes "app5.message" value.
+      }
+    }
+  })
+</script>
+
+
+<div id="app-6">
+  <!-- this directly (actually through vue) binds <p> and <input> value -->
+  <p>{{ message }}</p>
+  <input v-model="message">
+</div>
+
+<script type="text/javascript">
+  var app6 = new Vue({
+    el: '#app-6',
+    data: {
+      message: 'hutu-yan'
+    }
+  })
+</script>
+
+
+<!-- components -->
+<script type="text/javascript">
+  // if you define a component named 'todo-item'
+  Vue.component('todo-item', {
+    template: '<li>This is a todo</li>'
+  })
+</script>
+
+<!-- you can use the component directly as if it's a native tag! -->
+<ol>
+  <todo-item></todo-item>
+</ol>
+
+<! -- hmm? it doesn't work -->
+<! -- ok let's move on to the next example. numbered as "app7" -->
+
+
+<div id="app-7">
+  <ol>
+    <!--
+      Now we provide each todo-item with the todo object
+      it's representing, so that its content can be dynamic.
+      We also need to provide each component with a "key",
+      which will be explained later.
+    -->
+    <todo-item
+      v-for="item in groceryList"
+      v-bind:todo="item"
+      v-bind:key="item.id">
+    </todo-item>
+  </ol>
+</div>
+
+<script type="text/javascript">
+  Vue.component('todo-item', {
+    // The todo-item component now accepts a
+    // "prop", which is like a custom attribute.
+    // This prop is called todo.
+    props: ['todo'],
+    template: '<li>{{ todo.text }}</li>'
+  })
+
+  var app7 = new Vue({
+    el: '#app-7',
+    data: {
+      groceryList: [
+        {id: 0, text: 'isisis' },
+        {id: 1, text: 'wei' },
+        {id: 2, text: 'hoge' }
+      ]
+    }
+  })
+</script>
+
+
+<!--
+  bind example. you can bind any, famous, attributes, such as href.
+    <a v-bind:href="url"> ... </a>
+  and
+    <a v-on:click="doSomething"> ... </a>
+  is the same as
+    <a @click="doSomething"> ... </a>
+-->
