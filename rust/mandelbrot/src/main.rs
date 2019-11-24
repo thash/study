@@ -9,6 +9,8 @@ use std::str::FromStr;
 use std::fs::File;
 use std::io::Write;
 
+extern crate crossbeam;
+
 /*
 * start from here:
 * $ cargo new --bin mandelbrot
@@ -112,7 +114,7 @@ fn test_parse_complex() {
 /// `pixel` is a (column, row) pair indicating a particular pixel in that image.
 /// The `upper_left` and `lower_right` parameters are points on the complex
 /// plane designating the area our image covers.
-fn pixel_to_points(bounds: (usize, usize),
+fn pixel_to_point(bounds: (usize, usize),
                    pixel: (usize, usize),
                    upper_left: Complex<f64>,
                    lower_right: Complex<f64>)
@@ -129,8 +131,8 @@ fn pixel_to_points(bounds: (usize, usize),
 }
 
 #[test]
-fn test_pixel_to_points() {
-    assert_eq!(pixel_to_points((100, 100), (25, 75),
+fn test_pixel_to_point() {
+    assert_eq!(pixel_to_point((100, 100), (25, 75),
                                Complex { re: -1.0, im:  1.0 },
                                Complex { re:  1.0, im: -1.0 }),
                Complex { re: -0.5, im: -0.5 });
@@ -151,8 +153,8 @@ fn render(pixels: &mut [u8],
 
     for row in 0 .. bounds.1 {
         for column in 0 .. bounds.0 {
-            let point = pixel_to_points(bounds, (column, row),
-                                        upper_left, lower_right);
+            let point = pixel_to_point(bounds, (column, row),
+                                       upper_left, lower_right);
             pixels[row * bounds.0 + column] =
               match escape_time(point, 255) {
                   None => 0,
@@ -199,6 +201,8 @@ fn main() {
         std::process::exit(1);
     }
 
+        std::process::exit(0);
+        /*
     let bounds = parse_pair(&args[2], 'x')
         .expect("error parsing image dimensions");
     let upper_left = parse_complex(&args[3])
@@ -208,8 +212,36 @@ fn main() {
 
     let mut pixels  = vec![0; bounds.0 * bounds.1];
 
-    render(&mut pixels, bounds, upper_left, lower_right);
+    let threads = 8;
+    let rows_per_band = bounds.1 / threads + 1;
+
+    {
+        let bands: Vec<&mut [u8]> =
+            pixels.chunks_mut(rows_per_band * bounds.0).collect();
+        crossbeam::scope(|spawner| {
+            for (i, band) in bands.into_iter().enumerate() {
+                let top = rows_per_band * i;
+                let height = band.len() / bounds.0;
+                let band_bounds = (bounds.0, height);
+                let band_upper_left =
+                    pixel_to_point(bounds, (0, top), upper_left, lower_right);
+                let band_lower_right =
+                    pixel_to_point(bounds, (bounds.0, top + height),
+                                            upper_left, lower_right);
+
+                // Finally, we create a thread, running the closure move || { ... }.
+                // This syntax is a bit strange to read:
+                //   it denotes a closure of no arguments whose body is the { ... } form.
+                // The move keyword at the front indicates that this closure takes ownership of the variables it uses;
+                //   in particular, only the closure may use the mutable slice band.
+                spawner.spawn(move || {
+                    render(band, band_bounds, band_upper_left, band_lower_right);
+                });
+            }
+        });
+    }
 
     write_image(&args[1], &pixels, bounds)
       .expect("error writing PNG file");
+      */
 }
