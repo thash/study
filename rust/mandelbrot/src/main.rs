@@ -186,7 +186,7 @@ fn write_image(filename: &str, pixels: &[u8], bounds: (usize, usize))
     let encoder = PNGEncoder::new(output);
     encoder.encode(&pixels,
                    bounds.0 as u32, bounds.1 as u32,
-                   ColorType::Gray(0))?;
+                   ColorType::Gray(8))?;
     Ok(())
 }
 
@@ -198,11 +198,11 @@ fn main() {
                  "Usage: mandelbrot FILE PIXELS UPPERLEFT LOWERRIGHT").unwrap();
         writeln!(std::io::stderr(),
                  "Example: {} mandel.png 1000x750 -1.20,0.35 -1,0.20", args[0]).unwrap();
+        // $ cargo run -- mandel.png 1000x750 -1.20,0.35 -1,0.20
+        // or, build then exec
         std::process::exit(1);
     }
 
-        std::process::exit(0);
-        /*
     let bounds = parse_pair(&args[2], 'x')
         .expect("error parsing image dimensions");
     let upper_left = parse_complex(&args[3])
@@ -243,5 +243,4 @@ fn main() {
 
     write_image(&args[1], &pixels, bounds)
       .expect("error writing PNG file");
-      */
 }
