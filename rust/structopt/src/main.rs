@@ -13,4 +13,8 @@ enum Nanika {
 fn main() {
     let nanika = Nanika::from_args();
     println!("{:?}", nanika);
+    // println!("{:?}", nanika.speed);
+    match nanika {
+        Nanika::List { speed } => println!("speed is...! {:?}", speed),
+    }
 }
