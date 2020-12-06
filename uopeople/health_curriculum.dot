@@ -1,0 +1,43 @@
+// https://www.uopeople.edu/programs/hs/health-studies-bachelor-degree/curriculum/
+
+digraph {
+    graph [rankdir = LR];
+
+    // courses colored green (#aaffaa) are proctored course
+    CPH2211_Human_Anatomy_and_Physiology[fillcolor="#aaffaa", style="filled"];
+    CPH2711_Community_and_Public_Health_1[fillcolor="#aaffaa", style="filled"];
+    CPH3311_Epidemiology[fillcolor="#aaffaa", style="filled"];
+    CPH3610_Human_Development_in_a_Global_Perspective[fillcolor="#aaffaa", style="filled"];
+    CPH4212_Genetics[fillcolor="#aaffaa", style="filled"];
+    CPH4810_Health_Policy_and_Management[fillcolor="#aaffaa", style="filled"];
+    CPH4241_Psychopathology_and_Mental_Health[fillcolor="#aaffaa", style="filled"];
+    CPH4510_Biostatistics[fillcolor="#aaffaa", style="filled"];
+
+    // Courses with no prerequisites
+    BIOL1121_Biology_1_for_Health_Studies_Majors;
+    PSYC1111_Introduction_to_Human_Psychology;
+    SOC1502_Introduction_to_Sociology;
+
+    // Courses that have prerequisites
+    BIOL1121_Biology_1_for_Health_Studies_Majors -> BIOL1122_Biology_2_for_Health_Studies_Majors;
+    BIOL1122_Biology_2_for_Health_Studies_Majors -> CPH2211_Human_Anatomy_and_Physiology;
+    BIOL1122_Biology_2_for_Health_Studies_Majors -> CPH2212_Infectious_Diseases;
+    BIOL1122_Biology_2_for_Health_Studies_Majors -> CPH2611_Nutrition;
+    BIOL1122_Biology_2_for_Health_Studies_Majors -> CPH2711_Community_and_Public_Health_1;
+    CPH2211_Human_Anatomy_and_Physiology -> CPH3311_Epidemiology;
+    CPH2711_Community_and_Public_Health_1 -> CPH2712_Community_and_Public_Health_2;
+    CPH2712_Community_and_Public_Health_2 -> CPH3610_Human_Development_in_a_Global_Perspective;
+    CPH2712_Community_and_Public_Health_2 -> CPH4810_Health_Policy_and_Management;
+    CPH3311_Epidemiology -> CPH4212_Genetics;
+
+    // Courses that requires multiple prerequisites
+    CPH2211_Human_Anatomy_and_Physiology      -> CPH4241_Psychopathology_and_Mental_Health;
+    PSYC1111_Introduction_to_Human_Psychology -> CPH4241_Psychopathology_and_Mental_Health;
+    CPH3311_Epidemiology                -> CPH4510_Biostatistics;
+    MATH1280_Introduction_to_Statistics -> CPH4510_Biostatistics;
+    // NOTE: MATH1280 "Introduction to Statistics" itself isn't included in the Health Science curriculum. It's a general education course.
+    // https://www.uopeople.edu/prepare-for-university/introduction-statistics-math-1280-learning-materials/
+
+    // ignored:
+    // CPH 3995	Internship (6 credits) By permission only for CPH majors with over 100 credits	6
+}

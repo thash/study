@@ -1,0 +1,40 @@
+// https://www.uopeople.edu/programs/cs/degrees/computer-science-bachelor-degree-2/curriculum/
+
+digraph {
+    graph [rankdir = LR];
+
+    // courses colored green (#aaffaa) are proctored course
+    MATH1201_College_Algebra[fillcolor="#aaffaa", style="filled"];
+    MATH1280_Introduction_to_Statistics[fillcolor="#aaffaa", style="filled"];
+    CS2205_Web_Programming_1[fillcolor="#aaffaa", style="filled"];
+    CS3305_Web_Programming_2[fillcolor="#aaffaa", style="filled"];
+    CS2301_Operating_Systems_1[fillcolor="#aaffaa", style="filled"];
+    CS3303_Data_Structures[fillcolor="#aaffaa", style="filled"];
+    CS3306_Databases_2[fillcolor="#aaffaa", style="filled"];
+    CS3307_Operating_Systems_2[fillcolor="#aaffaa", style="filled"];
+    CS4407_Data_Mining_and_Machine_Learning[fillcolor="#aaffaa", style="filled"];
+    MATH1201_College_Algebra[fillcolor="#aaffaa", style="filled"];
+
+    // Courses with no prerequisites
+    CS1101_Programming_Fundamentals;
+    MATH1201_College_Algebra;
+    MATH1280_Introduction_to_Statistics;
+    MATH1302_Discrete_Mathematics;
+
+    // Couses that have prerequisites
+    CS1101_Programming_Fundamentals -> CS1102_Programming_1;
+    CS1102_Programming_1 -> CS1103_Programming_2;
+    CS1102_Programming_1 -> CS2203_Databases_1;
+    CS1103_Programming_2 -> CS1104_Computer_Systems;
+    CS1103_Programming_2 -> CS2205_Web_Programming_1;
+    CS1103_Programming_2 -> CS2301_Operating_Systems_1;
+    CS1103_Programming_2 -> CS2401_Software_Engineering_1;
+    CS1103_Programming_2 -> CS3303_Data_Structures;
+    CS1103_Programming_2 -> CS4402_Comparative_Programming_Languages;
+    CS1104_Computer_Systems -> CS2204_Communications_and_Networking;
+    CS2203_Databases_1 -> CS3306_Databases_2;
+    CS2205_Web_Programming_1 -> CS3305_Web_Programming_2;
+    CS2301_Operating_Systems_1 -> CS3307_Operating_Systems_2;
+    CS3303_Data_Structures -> CS4407_Data_Mining_and_Machine_Learning;
+    MATH1201_College_Algebra -> MATH1211_Calculus;
+}
