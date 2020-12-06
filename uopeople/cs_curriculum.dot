@@ -1,5 +1,9 @@
-// https://www.uopeople.edu/programs/cs/degrees/computer-science-bachelor-degree-2/curriculum/
-
+/*
+ * [1]: https://www.uopeople.edu/programs/cs/degrees/computer-science-bachelor-degree-2/curriculum/
+ * [2]: https://www.uopeople.edu/programs/cs/degrees/cs-course-catalog/
+ *
+ * Prerequisite course for CS4407_Data_Mining_and_Machine_Learning is different in above two pages.
+ */
 digraph {
     graph [rankdir = LR];
 
@@ -37,4 +41,21 @@ digraph {
     CS2301_Operating_Systems_1 -> CS3307_Operating_Systems_2;
     CS3303_Data_Structures -> CS4407_Data_Mining_and_Machine_Learning;
     MATH1201_College_Algebra -> MATH1211_Calculus;
+
+    // elective courses are colored in pink (#FFDBDB). They're shown only in [2]
+    CS3304_Analysis_of_Algorithms[fillcolor="#FFDBDB", style="filled"];
+    CS3308_Information_Retrieval[fillcolor="#FFDBDB", style="filled"];
+    CS4403_Software_Engineering_2[fillcolor="#FFDBDB", style="filled"];
+    CS4404_Advanced_Networking_and_Data_Security[fillcolor="#FFDBDB", style="filled"];
+    CS4405_Mobile_Applications[fillcolor="#FFDBDB", style="filled"];
+    CS4406_Computer_Graphics[fillcolor="#FFDBDB", style="filled"];
+    CS4408_Artificial_Intelligence[fillcolor="#FFDBDB", style="filled"];
+
+    CS3303_Data_Structures -> CS3304_Analysis_of_Algorithms;
+    CS3303_Data_Structures -> CS3308_Information_Retrieval;
+    CS2401_Software_Engineering_1 -> CS4403_Software_Engineering_2;
+    CS2204_Communications_and_Networking -> CS4404_Advanced_Networking_and_Data_Security;
+    CS3305_Web_Programming_2 -> CS4405_Mobile_Applications;
+    CS3304_Analysis_of_Algorithms -> CS4406_Computer_Graphics;
+    CS4407_Data_Mining_and_Machine_Learning -> CS4408_Artificial_Intelligence;
 }
