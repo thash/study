@@ -1,10 +1,2 @@
-$ sudo apt-get install golang
-
-http://go-tour-jp.appspot.com/
-
-basic execution
------------------------------------
-
-```
-$ go run hello.go
-```
+Private Learning Repository (separated as they include non-free contents, etc)
+https://github.com/thash/study_golang
