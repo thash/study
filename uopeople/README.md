@@ -2,6 +2,8 @@
 
 [B.Sc. Computer Science Degree Curriculum | UoPeople](https://www.uopeople.edu/programs/cs/degrees/computer-science-bachelor-degree-2/curriculum/)
 
+[Courses in Computer Science - uopeople catalog](https://catalog.uopeople.edu/ug_term1_item/computer-science/courses-in-computer-science)
+
 ![](./cs_curriculum.png)
 
 
