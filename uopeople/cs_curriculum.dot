@@ -1,8 +1,8 @@
 /*
- * [1]: https://www.uopeople.edu/programs/cs/degrees/computer-science-bachelor-degree-2/curriculum/
- * [2]: https://www.uopeople.edu/programs/cs/degrees/cs-course-catalog/
+ * [1]: https://www.uopeople.edu/programs/online-bachelors/computer-science/
+ * [1-a]: https://catalog.uopeople.edu/ug_term1_item/computer-science/bachelor-of-science-in-computer-science-bs-cs
+ * [2]: https://catalog.uopeople.edu/ug_term1_item/computer-science/courses-in-computer-science
  *
- * Prerequisite course for CS4407_Data_Mining_and_Machine_Learning is different in above two pages.
  */
 digraph {
     graph [rankdir = LR];
@@ -24,23 +24,25 @@ digraph {
     MATH1201_College_Algebra;
     MATH1280_Introduction_to_Statistics;
     MATH1302_Discrete_Mathematics;
+    CS1105_Digital_Electronics_and_Computer_Architecture; // Added 2024 - possibly alternative to CS1104 at [2]
 
     // Couses that have prerequisites
     CS1101_Programming_Fundamentals -> CS1102_Programming_1;
-    CS1102_Programming_1 -> CS1103_Programming_2;
-    CS1102_Programming_1 -> CS2203_Databases_1;
-    CS1103_Programming_2 -> CS1104_Computer_Systems;
-    CS1103_Programming_2 -> CS2205_Web_Programming_1;
-    CS1103_Programming_2 -> CS2301_Operating_Systems_1;
-    CS1103_Programming_2 -> CS2401_Software_Engineering_1;
-    CS1103_Programming_2 -> CS3303_Data_Structures;
-    CS1103_Programming_2 -> CS4402_Comparative_Programming_Languages;
-    CS1104_Computer_Systems -> CS2204_Communications_and_Networking;
-    CS2203_Databases_1 -> CS3306_Databases_2;
-    CS2205_Web_Programming_1 -> CS3305_Web_Programming_2;
-    CS2301_Operating_Systems_1 -> CS3307_Operating_Systems_2;
-    CS3303_Data_Structures -> CS4407_Data_Mining_and_Machine_Learning;
-    MATH1201_College_Algebra -> MATH1211_Calculus;
+    CS1102_Programming_1            -> CS1103_Programming_2;
+    CS1102_Programming_1            -> CS2203_Databases_1;
+    CS1103_Programming_2            -> CS1104_Computer_Systems; // CS1104 removed 2024 at [2]
+    CS1103_Programming_2            -> CS2205_Web_Programming_1;
+    CS1103_Programming_2            -> CS2301_Operating_Systems_1;
+    CS1103_Programming_2            -> CS2401_Software_Engineering_1;
+    CS1103_Programming_2            -> CS3303_Data_Structures;
+    CS1103_Programming_2            -> CS4402_Comparative_Programming_Languages;
+    CS1104_Computer_Systems         -> CS2204_Communications_and_Networking;
+    CS2203_Databases_1              -> CS3306_Databases_2;
+    CS2205_Web_Programming_1        -> CS3305_Web_Programming_2;
+    CS2301_Operating_Systems_1      -> CS3307_Operating_Systems_2;
+    CS3303_Data_Structures          -> CS4407_Data_Mining_and_Machine_Learning;
+    CS3303_Data_Structures          -> CS3340_Big_Data; // Added 2024
+    MATH1201_College_Algebra        -> MATH1211_Calculus;
 
     // elective courses are colored in pink (#FFDBDB). They're shown only in [2]
     CS3304_Analysis_of_Algorithms[fillcolor="#FFDBDB", style="filled"];
@@ -51,11 +53,11 @@ digraph {
     CS4406_Computer_Graphics[fillcolor="#FFDBDB", style="filled"];
     CS4408_Artificial_Intelligence[fillcolor="#FFDBDB", style="filled"];
 
-    CS3303_Data_Structures -> CS3304_Analysis_of_Algorithms;
-    CS3303_Data_Structures -> CS3308_Information_Retrieval;
-    CS2401_Software_Engineering_1 -> CS4403_Software_Engineering_2;
-    CS2204_Communications_and_Networking -> CS4404_Advanced_Networking_and_Data_Security;
-    CS3305_Web_Programming_2 -> CS4405_Mobile_Applications;
-    CS3304_Analysis_of_Algorithms -> CS4406_Computer_Graphics;
+    CS3303_Data_Structures                  -> CS3304_Analysis_of_Algorithms;
+    CS3303_Data_Structures                  -> CS3308_Information_Retrieval;
+    CS2401_Software_Engineering_1           -> CS4403_Software_Engineering_2;
+    CS2204_Communications_and_Networking    -> CS4404_Advanced_Networking_and_Data_Security;
+    CS3305_Web_Programming_2                -> CS4405_Mobile_Applications;
+    CS3304_Analysis_of_Algorithms           -> CS4406_Computer_Graphics;
     CS4407_Data_Mining_and_Machine_Learning -> CS4408_Artificial_Intelligence;
 }
