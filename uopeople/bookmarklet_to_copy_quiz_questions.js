@@ -9,13 +9,24 @@ javascript:(function(){
                 return `${pre}((blank))${post}`;
             })
             .replace(/\s+/g, ' ').trim();
-        output += `${qt}\n`;
+
+        let optionsText = '';
         q.querySelectorAll('.answer > div').forEach(o => {
             let n = o.querySelector('.answernumber')?.innerText.trim();
             let t = o.querySelector('.flex-fill')?.innerText.trim();
-            if (n && t) output += `- ${n} ${t}\n`;
+            if (n && t) optionsText += `- ${n} ${t}\n`;
         });
-        output += '\n\n';
+
+        if (/^- a\. (True|False)/i.test(optionsText.trim())) {
+            output += `True/False: ${qt}\n\n\n`;
+        } else {
+            output += `${qt}\n${optionsText}\n\n`;
+        }
     });
-    window.prompt('Copy the extracted questions below:', output);
+
+    navigator.clipboard.writeText(output).then(() => {
+        alert('Questions and options have been copied to the clipboard.');
+    }).catch(err => {
+        alert('Failed to copy text to clipboard:', err);
+    });
 })();
